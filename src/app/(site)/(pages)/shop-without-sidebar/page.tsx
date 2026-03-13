@@ -1,5 +1,6 @@
 import React from "react";
 import ShopWithoutSidebar from "@/components/ShopWithoutSidebar";
+import { getProducts } from "@/sanity/lib/storefront";
 
 import { Metadata } from "next";
 export const metadata: Metadata = {
@@ -8,10 +9,12 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-const ShopWithoutSidebarPage = () => {
+const ShopWithoutSidebarPage = async () => {
+  const products = await getProducts();
+
   return (
     <main>
-      <ShopWithoutSidebar />
+      <ShopWithoutSidebar products={products} />
     </main>
   );
 };

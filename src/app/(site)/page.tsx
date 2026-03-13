@@ -1,4 +1,5 @@
 import Home from "@/components/Home";
+import { getHomePageData } from "@/sanity/lib/storefront";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,10 +8,12 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const homePageData = await getHomePageData();
+
   return (
     <>
-      <Home />
+      <Home {...homePageData} />
     </>
   );
 }

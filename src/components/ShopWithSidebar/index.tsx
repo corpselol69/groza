@@ -7,11 +7,21 @@ import GenderDropdown from "./GenderDropdown";
 import SizeDropdown from "./SizeDropdown";
 import ColorsDropdwon from "./ColorsDropdwon";
 import PriceDropdown from "./PriceDropdown";
-import shopData from "../Shop/shopData";
 import SingleGridItem from "../Shop/SingleGridItem";
 import SingleListItem from "../Shop/SingleListItem";
+import { demoProducts } from "../Shop/shopData";
+import { Product } from "@/types/product";
+import { Category } from "@/types/category";
 
-const ShopWithSidebar = () => {
+type ShopWithSidebarProps = {
+  products?: Product[];
+  categories?: Category[];
+};
+
+const ShopWithSidebar = ({
+  products = demoProducts,
+  categories: incomingCategories = [],
+}: ShopWithSidebarProps) => {
   const [productStyle, setProductStyle] = useState("grid");
   const [productSidebar, setProductSidebar] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
@@ -30,38 +40,47 @@ const ShopWithSidebar = () => {
     { label: "Old Products", value: "2" },
   ];
 
-  const categories = [
-    {
-      name: "Desktop",
-      products: 10,
-      isRefined: true,
-    },
-    {
-      name: "Laptop",
-      products: 12,
-      isRefined: false,
-    },
-    {
-      name: "Monitor",
-      products: 30,
-      isRefined: false,
-    },
-    {
-      name: "UPS",
-      products: 23,
-      isRefined: false,
-    },
-    {
-      name: "Phone",
-      products: 10,
-      isRefined: false,
-    },
-    {
-      name: "Watch",
-      products: 13,
-      isRefined: false,
-    },
-  ];
+  const categories =
+    incomingCategories.length > 0
+      ? incomingCategories.map((category, index) => ({
+          name: category.title,
+          products: products.filter(
+            (product) => product.category?.title === category.title
+          ).length,
+          isRefined: index === 0,
+        }))
+      : [
+          {
+            name: "Desktop",
+            products: 10,
+            isRefined: true,
+          },
+          {
+            name: "Laptop",
+            products: 12,
+            isRefined: false,
+          },
+          {
+            name: "Monitor",
+            products: 30,
+            isRefined: false,
+          },
+          {
+            name: "UPS",
+            products: 23,
+            isRefined: false,
+          },
+          {
+            name: "Phone",
+            products: 10,
+            isRefined: false,
+          },
+          {
+            name: "Watch",
+            products: 13,
+            isRefined: false,
+          },
+        ];
 
   const genders = [
     {
@@ -184,7 +203,7 @@ const ShopWithSidebar = () => {
                     <CustomSelect options={options} />
 
                     <p>
-                      Showing <span className="text-dark">9 of 50</span>{" "}
+                      Showing <span className="text-dark">{products.length}</span>{" "}
                       Products
                     </p>
                   </div>
@@ -278,7 +297,7 @@ const ShopWithSidebar = () => {
                     : "flex flex-col gap-7.5"
                 }`}
               >
-                {shopData.map((item, key) =>
+                {products.map((item, key) =>
                   productStyle === "grid" ? (
                     <SingleGridItem item={item} key={key} />
                   ) : (

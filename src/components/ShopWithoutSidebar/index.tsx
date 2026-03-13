@@ -5,10 +5,14 @@ import Breadcrumb from "../Common/Breadcrumb";
 import SingleGridItem from "../Shop/SingleGridItem";
 import SingleListItem from "../Shop/SingleListItem";
 import CustomSelect from "../ShopWithSidebar/CustomSelect";
+import { demoProducts } from "../Shop/shopData";
+import { Product } from "@/types/product";
 
-import shopData from "../Shop/shopData";
-
-const ShopWithoutSidebar = () => {
+const ShopWithoutSidebar = ({
+  products = demoProducts,
+}: {
+  products?: Product[];
+}) => {
   const [productStyle, setProductStyle] = useState("grid");
 
   const options = [
@@ -35,7 +39,7 @@ const ShopWithoutSidebar = () => {
                     <CustomSelect options={options} />
 
                     <p>
-                      Showing <span className="text-dark">9 of 50</span>{" "}
+                      Showing <span className="text-dark">{products.length}</span>{" "}
                       Products
                     </p>
                   </div>
@@ -129,7 +133,7 @@ const ShopWithoutSidebar = () => {
                     : "flex flex-col gap-7.5"
                 }`}
               >
-                {shopData.map((item, key) =>
+                {products.map((item, key) =>
                   productStyle === "grid" ? (
                     <SingleGridItem item={item} key={key} />
                   ) : (

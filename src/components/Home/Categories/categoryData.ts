@@ -1,4 +1,4 @@
-const data = [
+export const demoCategories = [
   {
     title: "Televisions",
     id: 1,
@@ -41,4 +41,4 @@ const data = [
   },
 ];
 
-export default data;
+export default demoCategories;
